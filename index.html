@@ -1,0 +1,468 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка статуса карты</title>
+
+    <style>
+        /* Основной стиль для всех устройств */
+        .logo {
+            box-sizing: border-box;
+            display: block;
+            width: 417px;
+            /* Ширина для больших экранов */
+            max-width: initial;
+            height: 93px;
+        }
+
+        .header {
+            transform: translateY(0px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 124px;
+            padding-right: 45px;
+            padding-left: 19px;
+            background: white;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2),
+                0 4px 5px 0 rgba(0, 0, 0, .14),
+                0 1px 10px 0 rgba(0, 0, 0, .12);
+        }
+
+        .background-style {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 5%;
+        }
+
+        .window-style {
+            box-sizing: border-box;
+            width: 45%;
+        }
+
+        .window-contenier {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0px 24px 48px rgba(230, 235, 245, 0.4), 0px 1px 4px #e3ebfc;
+            padding: 5%;
+        }
+
+        .resident-card-status-checker-style {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 23px;
+            align-items: stretch;
+            justify-content: flex-start;
+            width: 618px;
+            padding-top: 24px;
+            padding-bottom: 72px;
+        }
+
+        /*Много дублей стилей для одного блока. надо просто сделать стиль на начало и конец и края
+        А блоки внутри могут стилизоваться как хотят*/
+        .form-style {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 23px;
+            align-items: stretch;
+            justify-content: flex-start;
+            width: 95%;
+            padding-top: 24px;
+        }
+
+        .input-contanier {
+            flex: 0 0 auto;
+        }
+
+        .input-text-style {
+            font-size: 16px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .window-text-style {
+            flex: 0 0 auto;
+            padding: 0;
+            margin: 0;
+            font: 400 16px Lato, sans-serif;
+            color: black;
+        }
+
+        .window-contanier-title {
+            flex: 0 0 auto;
+            padding: 0;
+            margin: 0;
+            font: 700 24px Lato, sans-serif;
+            color: #0b1f33;
+            text-align: center;
+        }
+
+        .exit-btn-style {
+            border: none;
+            background: none;
+        }
+
+        .exit-button-title {
+            font: 400 16px Lato, sans-serif;
+            color: #47a5ae;
+        }
+
+        .button-contanier {
+            box-sizing: border-box;
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: row;
+            align-items: stretch;
+            align-self: center;
+            justify-content: flex-start;
+            height: 52px;
+        }
+
+        .reset-button-container {
+            box-sizing: border-box;
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-right: 34px;
+            padding-left: 34px;
+            background: #f5f7fa;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .reset-button-container {
+            box-sizing: border-box;
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 34px;
+            /* Подкорректирован padding для удобства */
+            background: #f5f7fa;
+            /* Основной цвет фона */
+            color: #333;
+            /* Цвет текста */
+            font-weight: bold;
+            border-radius: 8px;
+            /* Скругление углов */
+            cursor: pointer;
+            /* Указатель мыши */
+            border: none;
+            /* Убираем рамку */
+            transition: all 0.3s ease;
+            /* Плавный переход для эффектов */
+        }
+
+        .reset-button-container:hover {
+            background: #e2e6ea;
+            /* Цвет фона при наведении */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Добавляем легкую тень */
+            transform: translateY(-2px);
+            /* Легкий подъем кнопки */
+        }
+
+        .reset-button-container:active {
+            background: #d6dadf;
+            /* Цвет фона при нажатии */
+            transform: translateY(1px);
+            /* Легкий эффект нажатия */
+        }
+
+        .action-button {
+            box-sizing: border-box;
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 29px;
+            /* Удобнее уменьшить padding сверху и снизу */
+            margin-left: 7px;
+            background: #00b894;
+            /* Основной цвет фона */
+            color: white;
+            /* Цвет текста */
+            font-weight: bold;
+            border-radius: 8px;
+            /* Скругление углов */
+            cursor: pointer;
+            /* Указатель мыши */
+            border: none;
+            /* Без рамки */
+            transition: all 0.3s ease;
+            /* Плавный переход для эффекта */
+        }
+
+        .action-button:hover {
+            background: #019b76;
+            /* Цвет фона при наведении */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* Добавляем тень */
+            transform: translateY(-2px);
+            /* Легкий подъем кнопки */
+        }
+
+        .action-button:active {
+            background: #017c5c;
+            /* Цвет фона при нажатии */
+            transform: translateY(1px);
+            /* Легкий эффект нажатия */
+        }
+
+        #loading {
+            display: flex;
+            justify-content: center;
+            /* Горизонтальное выравнивание */
+            align-items: center;
+            /* Вертикальное выравнивание */
+            /*height: 150;*/
+            /* Высота контейнера для центрирования */
+            position: relative;
+            /* Чтобы применить отступ сверху */
+        }
+
+        .spinner {
+            width: 64px;
+            height: 64px;
+            border: 8px solid;
+            border-color: #00b894 transparent #00b894 transparent;
+            border-radius: 50%;
+            animation: spin-anim 1.2s linear infinite;
+        }
+
+        @keyframes spin-anim {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Стили скрытого контейнера */
+        .hidden-contanier {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            width: 95%;
+        }
+
+        .horizontal-divider {
+            box-sizing: border-box;
+            flex: 0 0 auto;
+            height: 1px;
+            background: #e1e1e1;
+            margin-bottom: 30px;
+        }
+
+        .hidden-contanier1 {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            margin-top: 3%;
+        }
+
+        .hidden-contanier2 {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .vertical-card-container {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .status-card-widget {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .status-indicator {
+            box-sizing: border-box;
+            display: block;
+            width: 15px;
+            max-width: initial;
+            height: 15px;
+        }
+
+        .status-text-display-style {
+            flex: 0 0 auto;
+            padding: 0;
+            margin: 0;
+            margin-left: 9.5px;
+            font: 400 16px Lato, sans-serif;
+            color: black;
+            -webkit-text-stroke-color: black;
+            -webkit-text-stroke-width: 1px;
+        }
+
+        .longevity-status-container {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            margin-left: 34px;
+        }
+
+        .flex-row-with-gap {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: row;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            padding-right: 6px;
+            margin-top: 7.5px;
+        }
+
+        .status-card-active {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #00b894;
+            /* Зеленый цвет */
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        .status-card-deactive {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #b80000;
+            /* Зеленый цвет */
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        .hidden-text-container {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            padding-block-start: 3%;
+            padding-left: 5%;
+        }
+
+        /* Стиль для экранов шириной до 980px */
+        @media screen and (max-width: 980px) {}
+
+        /* Стиль для экранов шириной до 650px */
+        @media screen and (max-width: 650px) {}
+
+        /* Стиль для экранов шириной до 480px */
+        @media screen and (max-width: 480px) {
+            .logo {
+                width: 75%;
+            }
+
+            .header {
+                gap: 2%;
+                width: 100%;
+                height: 15%;
+                padding-right: 5%;
+                padding-left: 5%;
+            }
+
+            .window-style {
+                min-width: 99%;
+                padding-top: 5%;
+            }
+
+            .form-style {
+                gap: 20px;
+                padding-top: 20px;
+            }
+
+            .hidden-contanier {
+                padding: 5%;
+            }
+
+            .horizontal-divider {
+                margin-bottom: 0;
+            }
+
+            .hidden-contanier1 {}
+
+            .status-card-widget {
+                padding-block-start: 1%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <header class="header">
+        <img src="https://eks.sakhalin.gov.ru/cabinet/img/header-logo.d6c90e5e.svg" alt="Logo" class="logo">
+        <button type="button" class="exit-btn-style">
+            <p class="exit-button-title">ВЫХОД</p>
+        </button>
+    </header>
+    <div class="background-style">
+        <div class="window-style">
+            <div class="window-contenier">
+                <p class="window-contanier-title">Проверка статуса карты жителя</p>
+                <form id="cardForm" class="form-style">
+                    <div class="input-contanier">
+                        <input type="text" id="cardNumberInput" maxlength="19" placeholder="Номер карты"
+                            class="input-text-style" required="">
+                    </div>
+                    <div class="button-contanier">
+                        <button type="button" id="reset-button" class="reset-button-container">
+                            <span class="window-text-style">Сбросить</span>
+                        </button>
+                        <button type="submit" id="check-button" class="action-button">
+                            <span class="window-text-style">Проверить</span>
+                        </button>
+                    </div>
+                </form>
+                <div class="hidden-contanier" style="display: none;">
+                    <!-- Этот блок скрыт и будет заменен после выполнения JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/check.js"></script>
+    <script src="js/reset.js"></script>
+</body>
+
+</html>
